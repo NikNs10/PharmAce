@@ -10,7 +10,7 @@ namespace PharmAce.Models
     public class Order
     {
         
-  [Key]
+        [Key]
         public Guid OrderId{get;set;}
 
         [Required]

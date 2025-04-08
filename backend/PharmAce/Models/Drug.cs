@@ -11,8 +11,9 @@ namespace PharmAce.Models
     public class Drug
     {
         [Key]
-        public Guid DrugId { get; set; } = Guid.NewGuid();
+        public Guid DrugId { get; set; }
 
+        [Required]
         public Guid SupplierId{get;set;}
 
         [Required(ErrorMessage = "Drug name is required")]
