@@ -1,2 +1,35 @@
 *.env
 *appsettings.json
+
+# .NET
+*bin/
+*obj/
+*out/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+
+# Visual Studio for Mac/Windows
+.vscode/
+.idea/
+
+# ASP.NET Configuration files (keep sensitive info out of GitHub)
+appsettings.json
+appsettings.*.json
+secrets/
+
+# Dependencies for Node.js or other package managers
+node_modules/
+
+# Test results
+TestResults/
+
+# Database files
+*.sqlite
+
+# Local/Generated files
+*.dll
+*.exe
+*.pdb
