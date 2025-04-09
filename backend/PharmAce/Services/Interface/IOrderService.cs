@@ -6,9 +6,8 @@ using PharmAce.Models.DTO;
 
 namespace PharmAce.Services.Interface
 {
-    public interface IAuthService
+    public interface IOrderService
     {
-        Task<string> LoginAsync(LoginDto loginDto);
-        Task<string> SignUpAsync(SignUpDto signUpDto);
+          Task<IEnumerable<OrderDto>> ViewOrder();
     }
 }

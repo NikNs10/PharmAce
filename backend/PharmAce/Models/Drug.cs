@@ -35,6 +35,10 @@ namespace PharmAce.Models
         [Required(ErrorMessage = "Category is required")]
         public Guid CategoryId { get; set; }
 
+        // [ForeignKey("CategoryId")]
+        // public Category Category { get; set; }
+
+    
         // [Required(ErrorMessage = "Manufacturer is required")]
         // [StringLength(100, ErrorMessage = "Manufacturer cannot exceed 100 characters")]
         // public string Manufacturer { get; set; } = string.Empty;
