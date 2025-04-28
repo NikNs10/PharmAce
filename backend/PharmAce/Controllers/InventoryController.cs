@@ -21,7 +21,7 @@ namespace PharmAce.Controllers
         }
 
         [Authorize(Roles ="Admin,Supplier")]
-        [HttpGet]
+        [HttpGet("View_inventory")]
         public async Task<IActionResult> ViewInventory(){
             var result =await _inventoryService.ViewInventory();
             if(result==null){
@@ -31,13 +31,13 @@ namespace PharmAce.Controllers
         }
 
 
-        [HttpPut]
+        [HttpPut("Edit_inventory")]
         public async Task<IActionResult> AddInInventory(InventoryDto inventoryDto){
             var result=await _inventoryService.AddInInventory(inventoryDto);
             return Ok(new {message="Added Succesfully"});
         } 
 
-        [HttpDelete]
+        [HttpDelete("Delete_supply")]
         public async Task<IActionResult> DeleteInInventory(InventoryDto inventoryDto){
             var result=await _inventoryService.DeleteInInventory(inventoryDto);
             if(result==false){

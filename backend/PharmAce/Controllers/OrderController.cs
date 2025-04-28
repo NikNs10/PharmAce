@@ -19,7 +19,7 @@ namespace PharmAce.Controllers
         }
 
         [Authorize]
-        [HttpGet("view-orders")]
+        [HttpGet("View_orders")]
         public async Task<IActionResult> ViewOrder(){
             var order=await _orderService.ViewOrder();
             return Ok(order);
