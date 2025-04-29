@@ -1,0 +1,42 @@
+<div class="menu-toggle" (click)="toggleSidebar()">
+  &#9776;
+</div>
+
+<div class="admin-layout">
+    <aside class="sidebar" [class.open]="isSidebarOpen">
+      <ul>
+        <li>
+          <a [routerLink]="['./manage-drugs']" routerLinkActive="active"> Drugs</a>
+        </li>
+        <li>
+          Suppliers
+        </li>
+        <li>
+          Orders
+        </li>
+        <li>
+          Users
+        </li>
+        <li>
+          Inventory
+        </li>
+        <li>
+          Sales Report
+        </li>
+        <!-- 
+        <li>
+          <a [routerLink]="['./manage-orders']" routerLinkActive="active">Manage Orders</a>
+        </li>
+        <li>
+          <a [routerLink]="['./manage-users']" routerLinkActive="active">Manage Users</a>
+        </li>
+        <li><a [routerLink]="['./reports/inventory-report']" routerLinkActive="active">Inventory Report</a></li>
+    <li><a [routerLink]="['./reports/sales-report']" routerLinkActive="active">Sales Report</a></li> -->
+      </ul>
+    </aside>
+  
+    <main class="main-view">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  

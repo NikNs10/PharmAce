@@ -1,0 +1,249 @@
+// * {
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+//     font-family: 'Poppins', sans-serif;
+//   }
+  
+//   html, body {
+//     display: grid;
+//     height: 100%;
+//     width: 100%;
+//     place-items: center;
+//     background-color: #F8F9FA;
+//   }
+  
+//   .wrapper {
+//     overflow: hidden;
+//     max-width: 390px;
+//     background: #fff;
+//     padding: 30px;
+//     border-radius: 15px;
+//     box-shadow: rgba(0, 119, 182, 0.3) 0px 20px 30px -10px;
+//   }
+  
+//   form {
+//     width: 100%;
+  
+//     .field {
+//       margin-top: 20px;
+//       position: relative;
+  
+//       input, select {
+//         height: 50px;
+//         width: 100%;
+//         padding-left: 15px;
+//         border-radius: 15px;
+//         border: 1px solid #ccc;
+//         background-color: #F8F9FA;
+//         font-size: 17px;
+//         outline: none;
+//         transition: 0.3s;
+  
+//         &:focus {
+//           border-color: #0077B6;
+//         }
+  
+//         &::placeholder {
+//           color: #999;
+//         }
+  
+//         &:focus::placeholder {
+//           color: #0077B6;
+//         }
+//       }
+//     }
+  
+//     .btn {
+//       margin-top: 20px;
+//       position: relative;
+//       overflow: hidden;
+//       border-radius: 15px;
+  
+//       .btn-layer {
+//         height: 100%;
+//         width: 300%;
+//         position: absolute;
+//         left: -100%;
+//         background: linear-gradient(90deg, #0077B6, #00B4D8);
+//         transition: all 0.4s ease;
+        
+//       }
+  
+//       &:hover .btn-layer {
+//         left: 0;
+//       }
+  
+//       input[type="submit"] {
+//         height: 100%;
+//         width: 100%;
+//         background: none;
+//         border: none;
+//         color: #fff;
+//         font-size: 20px;
+//         font-weight: 500;
+//         cursor: pointer;
+//       }
+//     }
+  
+//     .signup-link {
+//       text-align: center;
+//       margin-top: 30px;
+  
+//       a {
+//         color: #00B4D8;
+//         text-decoration: none;
+  
+//         &:hover {
+//           text-decoration: underline;
+//         }
+//       }
+//     }
+  
+//     .pass-link {
+//       margin-top: 10px;
+//       text-align: right;
+  
+//       a {
+//         color: #00B4D8;
+//         text-decoration: none;
+  
+//         &:hover {
+//           text-decoration: underline;
+//         }
+//       }
+//     }
+//   }
+  
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;  
+}
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+  width: 97vw;
+  
+}
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa;
+
+}
+
+.wrapper {
+  max-width: 390px;
+  width: 100%;  // Ensures it occupies available space
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 119, 182, 0.3) 0px 20px 30px -10px;
+  margin: 0 auto;  // Centers the wrapper
+  
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.field {
+  margin-top: 20px;
+  position: relative;
+  
+  input, select {
+    height: 50px;
+    width: 100%;
+    padding-left: 15px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+    font-size: 17px;
+    outline: none;
+    transition: 0.3s;
+    
+    &:focus {
+      border-color: #0077b6;
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+
+    &:focus::placeholder {
+      color: #0077b6;
+    }
+  }
+}
+
+.btn {
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+
+  .btn-layer {
+    height: 100%;
+    width: 300%;
+    position: absolute;
+    left: -100%;
+    background: linear-gradient(90deg, #0077b6, #00b4d8);
+    transition: all 0.4s ease;
+  }
+
+  &:hover .btn-layer {
+    left: 0;
+  }
+
+  button.login-btn {
+    height: 100%;
+    width: 100%;
+    background: none;
+    border: none;
+    color: #372e9a;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+  }
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 30px;
+
+  a {
+    color: #00b4d8;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.pass-link {
+  margin-top: 10px;
+  text-align: right;
+
+  a {
+    color: #00b4d8;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="wrapper">
+    <div class="title-text">
+      <div class="title">Login Form</div>
+    </div>
+
+    <form (ngSubmit)="onLogin()">
+      <div class="field">
+        <input
+          type="text"
+          placeholder="Email Address"
+          [(ngModel)]="email"
+          name="email"
+          required
+        />
+      </div>
+      <div class="field">
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
+      </div>
+
+      <!-- <div class="pass-link">
+        <a href="#">Forgot password?</a>
+      </div> -->
+
+      <div class="field btn">
+        <div class="btn-layer"></div>
+        <button type="submit" class="submit-button">Login</button>
+      </div>
+
+      <div class="signup-link">
+        Not a member? <a routerLink="/signup">Signup now</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- <div class="wrapper">
+    <div class="title-text">
+      <div class="title">Login Form</div>
+    </div>
+  
+    <form (submit)="onLogin()">
+      <div class="field">
+        <input type="text" placeholder="Email Address" [(ngModel)]="email" name="email" required>
+      </div>
+      <div class="field">
+        <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
+      </div>
+      <div class="field">
+        <select id="role" name="role" [(ngModel)]="role" required>
+          <option value="" disabled selected>Select role</option>
+          <option value="Admin">Admin</option>
+          <option value="Doctor">Doctor</option>
+          <option value="Supplier">Supplier</option>
+        </select>
+      </div>
+  
+      <div class="pass-link"><a href="#">Forgot password?</a></div>
+      <div class="field btn">
+        <div class="btn-layer">
+          <button type="submit">Login</button>
+        </div>
+        <input type="submit" value="Login">
+      </div>
+      
+      <div class="signup-link">Not a member? <a routerLink="/signup">Signup now</a></div>
+    </form>
+  </div>
+   -->
+<!-- <div>
+   <main class="login-container">
+    <section class="login-box">
+      <h2>Login</h2>
+      <form (submit)="onLogin()">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" [(ngModel)]="email" required />
+        </div>
+  
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" [(ngModel)]="password" required />
+        </div>
+  
+        <button type="submit">Login</button>
+      </form>
+  
+      <p>Don't have an account? <a routerLink="/signup">Register here</a></p>
+      <button class="register-btn" (click)="navigateToSignup()">Register</button>
+    </section>
+  </main>
+</div> -->

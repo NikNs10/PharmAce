@@ -7,6 +7,7 @@ using PharmAce.Data;
 using PharmAce.Models.DTO;
 using PharmAce.Services.Interface;
 using PharmAce.Models;
+using Pharmace.API.Models.Dtos;
 
 namespace PharmAce.Services
 {
@@ -65,6 +66,70 @@ namespace PharmAce.Services
                 return true;
             }
             return false;
+        }
+
+        public async Task<PagedResult<DrugDto>> GetFilteredDrugsAsync(
+            string searchTerm,
+            int page = 1,
+            int pageSize = 10,
+            string sortBy = "Name",
+            bool ascending = true,
+            Guid? categoryId = null)
+        {
+            var query = _context.Drugs.Include(d => d.CategoryId).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(d =>
+                    EF.Functions.Like(d.Name, $"%{searchTerm}%") ||
+                    (d.Description != null && EF.Functions.Like(d.Description, $"%{searchTerm}%")));
+            }
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(d => d.CategoryId == categoryId.Value);
+            }
+
+            var totalCount = await query.CountAsync();
+
+            query = sortBy switch
+            {
+                "Price" => ascending ? query.OrderBy(d => d.Price) : query.OrderByDescending(d => d.Price),
+                _ => ascending ? query.OrderBy(d => d.Name) : query.OrderByDescending(d => d.Name),
+            };
+
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagedResult<DrugDto>
+            {
+                Items = items.Select(MapToDto),
+                TotalCount = totalCount
+            };
+        }
+
+         public async Task<bool> DeleteDrugAsync(Guid id)
+        {
+            var drug = await _context.Drugs.FindAsync(id);
+            if (drug == null) return false;
+
+            _context.Drugs.Remove(drug);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+         private DrugDto MapToDto(Drug drug)
+        {
+            return new DrugDto
+            {
+                
+                Name = drug.Name,
+                Description = drug.Description,
+                Price = drug.Price,
+                Stock = drug.Stock
+            };
         }
 
     }

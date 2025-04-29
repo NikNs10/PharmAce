@@ -1,0 +1,38 @@
+@import "../auth-common"; // We will create a common style file to avoid repeating.
+
+// .title-text {
+//   text-align: center;
+//   margin-bottom: 20px;
+
+//   .title {
+//     font-size: 32px;
+//     font-weight: 600;
+//     color: #0077B6;
+//   }
+// }
+ // Common style file for base styles
+
+.title-text {
+  text-align: center;
+  margin-bottom: 20px;
+
+  .title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #0077b6;
+  }
+}
+
+.submit-button {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 1; /* Bring button text above btn-layer */
+}
+

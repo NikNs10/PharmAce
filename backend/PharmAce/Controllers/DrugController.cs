@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Identity.Client;
+using Pharmace.API.Models.Dtos;
 using PharmAce.Models.DTO;
 using PharmAce.Services.Interface;
 
@@ -55,6 +56,29 @@ namespace PharmAce.Controllers
                 return Ok(new {message = "Deleted Successfully"});
             }
             return BadRequest(new {message = "No  Drugs Found"});
+        }
+
+        [Authorize(Roles="Admin,Supplier")]
+        [HttpGet("filter")]
+        public async Task<ActionResult<PagedResult<DrugDto>>> GetFilteredDrugs(
+            [FromQuery] string searchTerm = null,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string sortBy = "Name",
+            [FromQuery] bool ascending = true,
+            [FromQuery] Guid? categoryId = null)
+        {
+            var drugs = await _drug.GetFilteredDrugsAsync(searchTerm, page, pageSize, sortBy, ascending, categoryId);
+            return Ok(drugs);
+        }
+
+        [Authorize(Roles="Admin,Supplier")]
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> DeleteDrug(Guid id)
+        {
+            var deleted = await _drug.DeleteDrugAsync(id);
+            if (!deleted) return NotFound();
+            return NoContent();
         }
     }
 }

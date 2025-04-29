@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="wrapper">
+    <div class="title-text">
+      <div class="title">Signup Form</div>
+    </div>
+
+    <form (submit)="onSignupSubmit()">
+      <div class="field">
+        <input
+          type="text"
+          placeholder="Name"
+          [(ngModel)]="name"
+          name="name"
+          required
+        />
+      </div>
+      <div class="field">
+        <input
+          type="text"
+          placeholder="Email Address"
+          [(ngModel)]="email"
+          name="email"
+          required
+        />
+      </div>
+      <div class="field">
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <input
+          type="text"
+          placeholder="Phone Number"
+          [(ngModel)]="phone"
+          name="phone"
+          required
+        />
+      </div>
+      <div class="field">
+        <select id="role" name="role" [(ngModel)]="role" required>
+          <option value="" disabled selected>Select role</option>
+          <!-- <option value="Admin">Admin</option> -->
+          <option value="Doctor">Doctor</option>
+          <option value="Supplier">Supplier</option>
+        </select>
+      </div>
+
+      <div class="field btn">
+        <div class="btn-layer"></div>
+        <button type="submit" class="submit-button">Sign Up</button>
+      </div>
+
+      <div class="signup-link">
+        Already a member? <a routerLink="/login">Login now</a>
+      </div>
+    </form>
+  </div>
+</div>

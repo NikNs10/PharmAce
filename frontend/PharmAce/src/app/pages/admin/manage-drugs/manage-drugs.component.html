@@ -1,0 +1,123 @@
+<!-- <div class="drug-list-page">
+    <h2>Drug List</h2>
+  
+    <button (click)="showAddForm = !showAddForm" class="toggle-form-btn">
+      {{ showAddForm ? 'Cancel' : 'Add Drug' }}
+    </button>
+  
+     Add/Edit Form 
+    <div *ngIf="showAddForm" class="form-box">
+      <h3>{{ editMode ? 'Edit Drug' : 'Add New Drug' }}</h3>
+      <form (ngSubmit)="editMode ? updateDrug() : addDrug()" #drugForm="ngForm">
+        <div class="form-row">
+          <input type="text" name="name" [(ngModel)]="newDrug.name" placeholder="Name" required />
+        </div>
+
+        <div class="form-row">
+          <textarea name="description" [(ngModel)]="newDrug.description" placeholder="Description"></textarea>
+        </div>
+        <div class="form-row">
+          <input type="number" name="price" [(ngModel)]="newDrug.price" placeholder="Price (₹)" required />
+          <input type="text" name="categoryName" [(ngModel)]="newDrug.categoryName" placeholder="Category Name" required />
+        </div>
+        <button type="submit" [disabled]="drugForm.invalid" class="submit-btn">
+          {{ editMode ? 'Update' : 'Submit' }}
+        </button>
+      </form>
+    </div>
+  
+     Drug Table 
+    <div *ngIf="drugs.length === 0" class="no-drugs">No drugs found.</div>
+  
+    <div class="table-wrapper" *ngIf="drugs.length > 0">
+      <table class="drug-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price (₹)</th>
+            <th>Stock </th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let drug of drugs">
+            <td>{{ drug.name }}</td>
+            <td>{{ drug.description }}</td>
+            <td>{{ drug.price | number: '1.2-2' }}</td>
+            <td>{{ drug.stock }}</td>
+            <td>
+              <button (click)="editDrug(drug)">Edit</button>
+              <button (click)="deleteDrug(drug.drugId)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+   -->
+
+
+   <div class="drug-list-container">
+    <div class="header-row">
+      <h2 class="page-title">Drug List</h2>
+      <button (click)="showAddForm = !showAddForm" class="add-btn">
+        {{ showAddForm ? 'Cancel' : 'Add Drug' }}
+      </button>
+    </div>
+  
+    <!-- Add/Edit Drug Form -->
+    <div *ngIf="showAddForm" class="drug-form-container">
+      <h3>{{ editMode ? 'Edit Drug' : 'Add New Drug' }}</h3>
+      <form (ngSubmit)="editMode ? updateDrug() : addDrug()" #drugForm="ngForm">
+        <div class="form-grid">
+          <input type="text" name="name" [(ngModel)]="newDrug.name" placeholder="Name" required />
+          <!-- <input type="text" name="categoryName" [(ngModel)]="newDrug.categoryName" placeholder="Category Name" required /> -->
+          <input type="number" name="categoryName" [(ngModel)]="newDrug.stock" placeholder="Stock" required />
+        </div>
+        <div class="form-grid">
+          <input type="number" name="price" [(ngModel)]="newDrug.price" placeholder="Price (₹)" required />
+        </div>
+        <div class="form-grid">
+          <textarea name="description" [(ngModel)]="newDrug.description" placeholder="Description"></textarea>
+        </div>
+        <button type="submit" [disabled]="drugForm.invalid" class="submit-btn">
+          {{ editMode ? 'Update' : 'Submit' }}
+        </button>
+      </form>
+    </div>
+  
+    <!-- Drug Table -->
+    <div *ngIf="drugs.length === 0" class="no-drugs">No drugs found.</div>
+  
+    <div class="table-container" *ngIf="drugs.length > 0">
+      <table class="drug-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price (₹)</th>
+            <th>Stock</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let drug of drugs">
+            <td>{{ drug.name }}</td>
+            <td>{{ drug.description }}</td>
+            <td>{{ drug.price | number: '1.2-2' }}</td>
+            <td>{{ drug.stock }}</td>
+            <td class="action-buttons">
+              <button class="edit-btn" (click)="editDrug(drug)">
+                ✏️ Edit
+              </button>
+              <button class="delete-btn" (click)="deleteDrug(drug.drugId)">
+                🗑 Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
