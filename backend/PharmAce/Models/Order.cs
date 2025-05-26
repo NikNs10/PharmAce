@@ -7,31 +7,49 @@ using System.Threading.Tasks;
 
 namespace PharmAce.Models
 {
-    public enum OrderStatus { Pending, Verified}
+     public enum OrderStatus
+    {
+        Pending,
+        Verified
+    }
+    
     public class Order
     {
-        
+        public Order()
+        {
+            OrderItems = new HashSet<OrderItem>();
+        }
+
         [Key]
-        public Guid OrderId{get;set;}
+        public Guid OrderId { get; set; }
 
         [Required]
-        public Guid DoctorId{get;set;}
+        public Guid UserId { get; set; }
 
         [Required]
-        public OrderStatus Status{get;set;}
+        public OrderStatus Status { get; set; }
         
         [Required]
-        public long OrderDate{get;set;}
+        public DateTime OrderDate { get; set; }
 
         [Required]
-        public decimal TotalAmount{get;set;}
+        public decimal TotalAmount { get; set; }
 
-        
-        public Guid? TransactionId{get;set;}
+        public Guid? TransactionId { get; set; }
 
-        [Required]
-        public Guid OrderItemId{get;set;}
+        // This property creates a circular reference and should be removed
+        // It's being ignored in the DbContext configuration
+        public Guid OrderItemId { get; set; }
 
-        
+        // Navigation properties
+        [ForeignKey(nameof(TransactionId))]
+        public virtual TransactionDetail TransactionDetails { get; set; }
+
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
+
+        public virtual SalesReport SalesReport { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public virtual ApplicationUser User { get; set; }
     }
 }

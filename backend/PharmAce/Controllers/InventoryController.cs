@@ -20,30 +20,84 @@ namespace PharmAce.Controllers
             _inventoryService=service;
         }
 
-        [Authorize(Roles ="Admin,Supplier")]
-        [HttpGet("View_inventory")]
-        public async Task<IActionResult> ViewInventory(){
-            var result =await _inventoryService.ViewInventory();
-            if(result==null){
-                return BadRequest("Inventory is Empty");
-            }
-            return Ok(result);
+        
+        [HttpGet]
+        [Authorize(Roles = "Admin,Supplier")]
+        public async Task<ActionResult<IEnumerable<InventoryDto>>> GetAllInventory()
+        {
+            var inventories = await _inventoryService.GetAllInventoryAsync();
+            return Ok(inventories);
         }
 
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Supplier")]
+        public async Task<ActionResult<InventoryDto>> GetInventoryById(Guid id)
+        {
+            var inventory = await _inventoryService.GetInventoryByIdAsync(id);
+            if (inventory == null)
+                return NotFound($"Inventory with ID {id} not found");
 
-        [HttpPut("Edit_inventory")]
-        public async Task<IActionResult> AddInInventory(InventoryDto inventoryDto){
-            var result=await _inventoryService.AddInInventory(inventoryDto);
-            return Ok(new {message="Added Succesfully"});
-        } 
+            return Ok(inventory);
+        }
 
-        [HttpDelete("Delete_supply")]
-        public async Task<IActionResult> DeleteInInventory(InventoryDto inventoryDto){
-            var result=await _inventoryService.DeleteInInventory(inventoryDto);
-            if(result==false){
-                return BadRequest(new {message="Drug not found"});
+        [HttpGet("drug/{drugId}")]
+        [Authorize(Roles = "Admin,Supplier")]
+        public async Task<ActionResult<IEnumerable<InventoryDto>>> GetInventoryByDrugId(Guid drugId)
+        {
+            var inventories = await _inventoryService.GetInventoryByDrugIdAsync(drugId);
+            return Ok(inventories);
+        }
+
+        [HttpGet("supplier/{supplierId}")]
+        [Authorize(Roles = "Admin,Supplier")]
+        public async Task<ActionResult<IEnumerable<InventoryDto>>> GetInventoryBySupplierId(Guid supplierId)
+        {
+            var inventories = await _inventoryService.GetInventoryBySupplierIdAsync(supplierId);
+            return Ok(inventories);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin,Supplier")]
+        public async Task<ActionResult<InventoryDto>> CreateInventory([FromBody] DrugInventoryDto inventoryDto)
+        {
+            try
+            {
+                var newInventory = await _inventoryService.CreateInventoryAsync(inventoryDto);
+                return Ok(newInventory);
             }
-            return Ok(new {message="Deleted Succesfully"});
-        } 
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Admin,Supplier")]
+        public async Task<ActionResult<InventoryDto>> UpdateInventory(DrugInventoryDto inventoryDto)
+        {
+            try
+            {
+                var updatedInventory = await _inventoryService.UpdateInventoryAsync(inventoryDto);
+                if (updatedInventory == null)
+                    return NotFound($"Inventory with ID {inventoryDto.DrugId} not found");
+
+                return Ok(updatedInventory);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,Supplier")]
+        public async Task<ActionResult> DeleteInventory(Guid id)
+        {
+            var result = await _inventoryService.DeleteInventoryAsync(id);
+            if (!result)
+                return NotFound($"Inventory with ID {id} not found");
+
+            return NoContent();
+        }
     }
 }

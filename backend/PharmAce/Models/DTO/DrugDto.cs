@@ -14,5 +14,7 @@ namespace PharmAce.Models.DTO
         public int Stock { get; set; }
         public decimal Price { get; set; }
         
+        
+        public Guid CategoryId{get;set;}
     }
 }

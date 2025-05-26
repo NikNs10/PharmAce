@@ -1,0 +1,130 @@
+.cart-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 24px;
+      color: #333;
+    }
+  }
+  
+  .empty-cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    
+    .mat-icon {
+      font-size: 64px;
+      height: 64px;
+      width: 64px;
+      color: #ccc;
+      margin-bottom: 16px;
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: #555;
+    }
+    
+    p {
+      color: #777;
+      margin-bottom: 24px;
+      max-width: 400px;
+    }
+  }
+  
+  .cart-table {
+    width: 100%;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    
+    .mat-header-row {
+      background-color: #f5f5f5;
+    }
+    
+    .mat-footer-row {
+      font-weight: bold;
+      background-color: #f5f5f5;
+    }
+  }
+  
+  .product-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  .product-info {
+    .product-name {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    
+    .product-description {
+      font-size: 0.85rem;
+      color: #666;
+    }
+  }
+  
+  .quantity-control {
+    display: flex;
+    align-items: center;
+    
+    .quantity {
+      width: 30px;
+      text-align: center;
+      font-weight: 500;
+    }
+  }
+  
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    
+    .total-amount {
+      font-weight: 700;
+      color: #1976d2;
+    }
+  }
+  
+  .cart-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  
+  @media (max-width: 768px) {
+    .cart-table {
+      .mat-header-row, .mat-row, .mat-footer-row {
+        padding: 0 8px;
+      }
+    }
+    
+    .cart-actions {
+      justify-content: center;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .cart-table {
+      .mat-column-image, .mat-column-actions {
+        max-width: 60px;
+      }
+      
+      .product-description {
+        display: none;
+      }
+    }
+  }
+  

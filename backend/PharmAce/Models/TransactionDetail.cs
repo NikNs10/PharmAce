@@ -13,6 +13,11 @@ namespace PharmAce.Models
 
     public class TransactionDetail
     {
+        public TransactionDetail()
+        {
+            Orders = new HashSet<Order>();
+        }
+        
         [Key]
         public Guid TransactionId{get;set;}
 
@@ -27,5 +32,8 @@ namespace PharmAce.Models
 
         [Required]
         public decimal amount{get;set;}
+
+         public virtual ICollection<Order> Orders { get; set; }
+        // public virtual Order Orders { get; set; }
     }
 }

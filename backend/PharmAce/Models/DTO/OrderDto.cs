@@ -7,18 +7,28 @@ namespace PharmAce.Models.DTO
 {
     public class OrderDto
     {
-        public string OrderId{get;set;}
-
-        public string DoctorName{get;set;}
-
-        public string Status{get;set;}
         
-        public long OrderDate{get;set;}
+        public Guid OrderId { get; set; }
+        public Guid UserId { get; set; }
+        public OrderStatus Status { get; set; }
+        public DateTime OrderDate { get; set; }
+        public decimal TotalAmount { get; set; }
+        public Guid? TransactionId { get; set; }
+    }
 
-        public decimal TotalAmount{get;set;}
+    public class CreateOrderDto
+    {
+        public Guid UserId { get; set; }
+        public OrderStatus Status { get; set; }
+        public DateTime OrderDate { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string PaymentMethod{get;set;}
+        public decimal TransactionAmount { get; set; }
+    }
 
-        public string TransactionId{get;set;}
-
-        public string OrderItem{get;set;}
+    public class UpdateOrderDto
+    {
+        public OrderStatus Status { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }

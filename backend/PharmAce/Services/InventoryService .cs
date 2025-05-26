@@ -18,44 +18,148 @@ namespace PharmAce.Services
             _context=context;
         }
 
-        public async Task<IEnumerable<InventoryDto>> ViewInventory(){
-            var inventory=await _context.Inventories.ToListAsync();
-            var inventorydto=inventory.Select(p=>new InventoryDto{
-                DrugName=p.Name,
-                DrugQuantity=p.DrugQuantity
-            });
+          public async Task<IEnumerable<InventoryDto>> GetAllInventoryAsync()
+        {
+            var inventories = await _context.Inventory
+                .Include(i => i.Drugs)
+                .Select(i => new InventoryDto
+                {
+                    InventoryId = i.InventoryId,
+                    DrugId = i.DrugId,
+                    DrugName = i.Name,
+                    DrugExpiry = i.ExpiryDate,
+                    DrugQuantity = i.DrugQuantity,
+                    SupplierId = i.SupplierId
+                })
+                .ToListAsync();
 
-            return inventorydto;
+            return inventories;
         }
 
-        public async Task<bool> AddInInventory(InventoryDto inventoryDto){
-           var result=await  _context.Inventories.FirstOrDefaultAsync(p=>p.Name==inventoryDto.DrugName);
-           if(result==null){
-                var drug=new Inventory{
-                    Name=inventoryDto.DrugName,
-                    DrugQuantity=inventoryDto.DrugQuantity
-                };
-                await _context.Inventories.AddAsync(drug);
-           }
-           else{
-                result.DrugQuantity+=inventoryDto.DrugQuantity;
-           }
-            
+        public async Task<InventoryDto> GetInventoryByIdAsync(Guid id)
+        {
+            var inventory = await _context.Inventory
+                .Include(i => i.Drugs)
+                .FirstOrDefaultAsync(i => i.InventoryId == id);
+
+            if (inventory == null)
+                return null;
+
+            return new InventoryDto
+            {
+                InventoryId = inventory.InventoryId,
+                DrugId = inventory.DrugId,
+                DrugName = inventory.Name,
+                DrugExpiry = inventory.ExpiryDate,
+                DrugQuantity = inventory.DrugQuantity,
+                SupplierId = inventory.SupplierId
+            };
+        }
+
+        public async Task<IEnumerable<InventoryDto>> GetInventoryByDrugIdAsync(Guid drugId)
+        {
+            var inventories = await _context.Inventory
+                .Include(i => i.Drugs)
+                .Where(i => i.DrugId == drugId)
+                .Select(i => new InventoryDto
+                {
+                    InventoryId = i.InventoryId,
+                    DrugId = i.DrugId,
+                    DrugName = i.Name,
+                    DrugExpiry = i.ExpiryDate,
+                    DrugQuantity = i.DrugQuantity,
+                    SupplierId = i.SupplierId
+                })
+                .ToListAsync();
+
+            return inventories;
+        }
+
+        public async Task<IEnumerable<InventoryDto>> GetInventoryBySupplierIdAsync(Guid supplierId)
+        {
+            var inventories = await _context.Inventory
+                .Include(i => i.Drugs)
+                .Where(i => i.SupplierId == supplierId)
+                .Select(i => new InventoryDto
+                {
+                    InventoryId = i.InventoryId,
+                    DrugId = i.DrugId,
+                    DrugName = i.Name,
+                    DrugExpiry = i.ExpiryDate,
+                    DrugQuantity = i.DrugQuantity,
+                    SupplierId = i.SupplierId
+                })
+                .ToListAsync();
+
+            return inventories;
+        }
+
+        public async Task<InventoryDto> CreateInventoryAsync(DrugInventoryDto inventoryDto)
+        {
+            // var drug = await _context.Drugs.FindAsync(inventoryDto.DrugId);
+
+            var inventory = new Inventory
+            {
+                InventoryId=Guid.NewGuid(),
+                DrugId = inventoryDto.DrugId,
+                Name = inventoryDto.Name,
+                ExpiryDate = inventoryDto.DrugExpiry,
+                DrugQuantity = inventoryDto.Stock,
+                SupplierId = inventoryDto.SupplierId
+            };
+
+            _context.Inventory.Add(inventory);
             await _context.SaveChangesAsync();
-            return true;
+
+            return new InventoryDto
+            {
+                InventoryId = inventory.InventoryId,
+                DrugId = inventory.DrugId,
+                DrugName = inventory.Name,
+                DrugExpiry = inventory.ExpiryDate,
+                DrugQuantity = inventory.DrugQuantity,
+                SupplierId = inventory.SupplierId
+            };
         }
 
-        public async Task<bool> DeleteInInventory(InventoryDto inventoryDto){
-            var drug=await _context.Inventories.FirstOrDefaultAsync(p=>p.Name==inventoryDto.DrugName);
-            if(drug==null){
+        public async Task<InventoryDto> UpdateInventoryAsync(DrugInventoryDto inventoryDto)
+        {
+            var inventory = await _context.Inventory.FirstOrDefaultAsync(s=>s.DrugId==inventoryDto.DrugId);
+            if (inventory == null)
+                return null;
+
+            var drug = await _context.Drugs.FindAsync(inventoryDto.DrugId);
+            if (drug == null)
+                throw new Exception($"Drug with ID {inventoryDto.DrugId} not found");
+
+            inventory.DrugId = inventoryDto.DrugId;
+            inventory.Name = inventoryDto.Name;
+            inventory.ExpiryDate = inventoryDto.DrugExpiry;
+            inventory.DrugQuantity = inventoryDto.Stock;
+            inventory.SupplierId = inventoryDto.SupplierId;
+
+            _context.Inventory.Update(inventory);
+            await _context.SaveChangesAsync();
+
+            return new InventoryDto
+            {
+                InventoryId = inventory.InventoryId,
+                DrugId = inventory.DrugId,
+                DrugName = inventory.Name,
+                DrugExpiry = inventory.ExpiryDate,
+                DrugQuantity = inventory.DrugQuantity,
+                SupplierId = inventory.SupplierId
+            };
+        }
+
+        public async Task<bool> DeleteInventoryAsync(Guid id)
+        {
+            var inventory = await _context.Inventory.FindAsync(id);
+            if (inventory == null)
                 return false;
-            }
-            else{
-                drug.DrugQuantity-=inventoryDto.DrugQuantity;
-            }
+            _context.Inventory.Remove(inventory);
             await _context.SaveChangesAsync();
             return true;
         }
-
     }
 }

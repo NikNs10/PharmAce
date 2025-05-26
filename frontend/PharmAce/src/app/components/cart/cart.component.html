@@ -1,0 +1,104 @@
+<div class="cart-container">
+    <h1>Your Shopping Cart</h1>
+    
+    <div *ngIf="cartItems.length === 0" class="empty-cart">
+      <mat-icon>shopping_cart</mat-icon>
+      <h2>Your cart is empty</h2>
+      <p>Add some medicines to your cart and they will appear here.</p>
+      <button mat-raised-button color="primary" (click)="continueShopping()">
+        Continue Shopping
+      </button>
+    </div>
+    
+    <div *ngIf="cartItems.length > 0" class="cart-content">
+      <table mat-table [dataSource]="cartItems" class="cart-table">
+        <!-- Image Column -->
+        <ng-container matColumnDef="image">
+          <th mat-header-cell *matHeaderCellDef>Image</th>
+          <td mat-cell *matCellDef="let item">
+            <img [src]="item.drug.imageUrl || '/assets/images/medicine-placeholder.png'" [alt]="item.drug.name" class="product-image">
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Medicine</th>
+          <td mat-cell *matCellDef="let item">
+            <div class="product-info">
+              <div class="product-name">{{item.drug.name}}</div>
+              <div class="product-description">{{item.drug.description | slice:0:50}}{{item.drug.description.length > 50 ? '...' : ''}}</div>
+            </div>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let item">₹{{item.drug.price | number:'1.2-2'}}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        
+        <!-- Quantity Column -->
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Quantity</th>
+          <td mat-cell *matCellDef="let item">
+            <div class="quantity-control">
+              <button mat-icon-button color="primary" (click)="updateQuantity(item, -1)">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span class="quantity">{{item.quantity}}</span>
+              <button mat-icon-button color="primary" (click)="updateQuantity(item, 1)" [disabled]="item.quantity >= item.drug.stock">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        
+        <!-- Total Column -->
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let item">₹{{getItemTotal(item) | number:'1.2-2'}}</td>
+          <td mat-footer-cell *matFooterCellDef>
+            <div class="cart-total">
+              <span>Total:</span>
+              <span class="total-amount">₹{{getCartTotal() | number:'1.2-2'}}</span>
+            </div>
+          </td>
+        </ng-container>
+        
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="warn" (click)="removeItem(item)" matTooltip="Remove item">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      </table>
+      
+      <div class="cart-actions">
+        <button mat-stroked-button (click)="clearCart()">
+          <mat-icon>remove_shopping_cart</mat-icon>
+          Clear Cart
+        </button>
+        <button mat-stroked-button (click)="continueShopping()">
+          <mat-icon>arrow_back</mat-icon>
+          Continue Shopping
+        </button>
+        <button mat-raised-button color="primary" (click)="checkout()">
+          <mat-icon>shopping_cart_checkout</mat-icon>
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+  

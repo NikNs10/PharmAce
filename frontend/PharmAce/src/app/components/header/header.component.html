@@ -1,0 +1,48 @@
+<mat-toolbar color="primary" class="header">
+  <div class="header-container">
+    <div class="logo-container">
+      <button mat-icon-button class="menu-button" (click)="toggleMobileMenu()" *ngIf="(currentUser$ | async)">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <a routerLink="/" class="logo">
+        <mat-icon>local_pharmacy</mat-icon>
+        <span class="logo-text">PharmAce</span>
+      </a>
+    </div>
+
+    <div class="nav-links" [class.mobile-open]="isMobileMenuOpen">
+      <ng-container *ngIf="(currentUser$ | async) as user">
+        <a mat-button routerLink="/orders" routerLinkActive="active">
+          <mat-icon>receipt</mat-icon>
+          <span>My Orders</span>
+        </a>
+        <a mat-button routerLink="cart" routerLinkActive="active">
+          <mat-icon [matBadge]="cartItemCount" [matBadgeHidden]="cartItemCount === 0" matBadgeColor="accent">shopping_cart</mat-icon>
+          <span>Cart</span>
+        </a>
+      </ng-container>
+    </div>
+
+    <div class="auth-actions">
+      <ng-container *ngIf="(currentUser$ | async) as user; else loginButton">
+        <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
+          <mat-icon>account_circle</mat-icon>
+          <span>{{ user.name }}</span>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+      
+      <ng-template #loginButton>
+        <a mat-raised-button color="accent" routerLink="login">Login</a>
+      </ng-template>
+    </div>
+  </div>
+</mat-toolbar>
+
+<!-- Mobile navigation overlay -->
+<div class="mobile-nav-overlay" *ngIf="isMobileMenuOpen" (click)="toggleMobileMenu()"></div>

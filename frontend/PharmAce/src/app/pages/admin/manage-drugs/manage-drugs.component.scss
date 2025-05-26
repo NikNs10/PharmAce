@@ -104,165 +104,255 @@
 //     }
 //   }
   
-.drug-list-container {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 119, 182, 0.1);
-}
+// .drug-list-container {
+//   padding: 2rem;
+//   max-width: 1200px;
+//   margin: 0 auto;
+//   background-color: #f8f9fa;
+//   border-radius: 12px;
+//   box-shadow: 0 8px 24px rgba(0, 119, 182, 0.1);
+// }
 
-.page-title {
-  font-size: 2rem;
-  color: #0077b6;
-  font-weight: 600;
-}
+// .page-title {
+//   font-size: 2rem;
+//   color: #0077b6;
+//   font-weight: 600;
+// }
 
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
+// .header-row {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 1.5rem;
+// }
 
-.add-btn {
-  background: linear-gradient(90deg, #0077b6, #00b4d8);
-  color: white;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.3s ease;
+// .add-btn {
+//   background: linear-gradient(90deg, #0077b6, #00b4d8);
+//   color: white;
+//   padding: 0.6rem 1.2rem;
+//   border: none;
+//   border-radius: 10px;
+//   cursor: pointer;
+//   font-weight: 500;
+//   transition: background 0.3s ease;
 
-  &:hover {
-    opacity: 0.9;
-  }
-}
+//   &:hover {
+//     opacity: 0.9;
+//   }
+// }
 
-.drug-form-container {
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+// .drug-form-container {
+//   background-color: white;
+//   border: 1px solid #e0e0e0;
+//   border-radius: 12px;
+//   padding: 1.5rem;
+//   margin-bottom: 2rem;
 
-  h3 {
-    margin-bottom: 1rem;
-    color: #0077b6;
-  }
+//   h3 {
+//     margin-bottom: 1rem;
+//     color: #0077b6;
+//   }
 
-  .form-grid {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
+//   .form-grid {
+//     display: flex;
+//     gap: 1rem;
+//     margin-bottom: 1rem;
 
-    input,
-    textarea {
-      flex: 1;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 16px;
-      background-color: #f8f9fa;
+//     input,
+//     textarea {
+//       flex: 1;
+//       padding: 0.75rem;
+//       border: 1px solid #ccc;
+//       border-radius: 10px;
+//       font-size: 16px;
+//       background-color: #f8f9fa;
 
-      &:focus {
-        border-color: #0077b6;
-        outline: none;
-      }
+//       &:focus {
+//         border-color: #0077b6;
+//         outline: none;
+//       }
 
-      &::placeholder {
-        color: #888;
-      }
-    }
+//       &::placeholder {
+//         color: #888;
+//       }
+//     }
 
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-  }
+//     textarea {
+//       resize: vertical;
+//       min-height: 80px;
+//     }
+//   }
 
-  .submit-btn {
-    background: #00b4d8;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 500;
+//   .submit-btn {
+//     background: #00b4d8;
+//     color: white;
+//     border: none;
+//     padding: 0.6rem 1.2rem;
+//     border-radius: 10px;
+//     cursor: pointer;
+//     font-weight: 500;
 
-    &:hover {
-      background: #0077b6;
-    }
-  }
-}
+//     &:hover {
+//       background: #0077b6;
+//     }
+//   }
+// }
 
-.no-drugs {
-  text-align: center;
-  padding: 2rem;
-  color: #6c757d;
-  font-weight: 500;
-}
+// .no-drugs {
+//   text-align: center;
+//   padding: 2rem;
+//   color: #6c757d;
+//   font-weight: 500;
+// }
 
-.table-container {
-  overflow-x: auto;
-  background: white;
-  border-radius: 12px;
-  box-shadow: rgba(0, 119, 182, 0.1) 0px 4px 20px;
-}
+// .table-container {
+//   overflow-x: auto;
+//   background: white;
+//   border-radius: 12px;
+//   box-shadow: rgba(0, 119, 182, 0.1) 0px 4px 20px;
+// }
 
-.drug-table {
-  width: 100%;
-  border-collapse: collapse;
+// .drug-table {
+//   width: 100%;
+//   border-collapse: collapse;
 
-  th, td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-  }
+//   th, td {
+//     padding: 1rem;
+//     text-align: left;
+//     border-bottom: 1px solid #e0e0e0;
+//   }
 
-  th {
-    background-color: #eaf4fb;
-    color: #0077b6;
-    font-weight: 600;
-  }
+//   th {
+//     background-color: #eaf4fb;
+//     color: #0077b6;
+//     font-weight: 600;
+//   }
 
-  tr:last-child td {
-    border-bottom: none;
-  }
+//   tr:last-child td {
+//     border-bottom: none;
+//   }
 
-  .action-buttons {
-    display: flex;
-    gap: 0.5rem;
+//   .action-buttons {
+//     display: flex;
+//     gap: 0.5rem;
 
-    button {
-      padding: 0.4rem 0.8rem;
-      border: none;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
+//     button {
+//       padding: 0.4rem 0.8rem;
+//       border: none;
+//       border-radius: 8px;
+//       font-weight: 500;
+//       cursor: pointer;
+//       display: flex;
+//       align-items: center;
+//       gap: 0.3rem;
+//     }
+
+//     .edit-btn {
+//       background-color: #fff3cd;
+//       color: #856404;
+//     }
+
+//     .delete-btn {
+//       background-color: #f8d7da;
+//       color: #842029;
+//     }
+
+//     .edit-btn:hover {
+//       background-color: #ffe8a1;
+//     }
+
+//     .delete-btn:hover {
+//       background-color: #f1b0b7;
+//     }
+//   }
+// }
+
+
+:host {
+  .drug-list-card {
+    max-width: 1300px;
+    margin: 24px auto;
+    border-radius: 12px;
+    overflow: hidden;
+
+    .header-toolbar {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
+      padding: 0 16px;
+      height: 64px;
+
+      .title {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .spacer {
+        flex: 1 1 auto;
+      }
+
+      .search-field {
+        width: 240px;
+        margin-right: 16px;
+      }
     }
 
-    .edit-btn {
-      background-color: #fff3cd;
-      color: #856404;
+    .mat-expansion-panel {
+      background: #f0f8ff;
+
+      .mat-expansion-panel-header {
+        background: #e1f5fe;
+        .mat-content {
+          font-size: 1.25rem;
+          color: #0077b6;
+        }
+      }
     }
 
-    .delete-btn {
-      background-color: #f8d7da;
-      color: #842029;
+    .drug-form {
+      padding: 16px;
+
+      .form-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+
+        &.full-width {
+          flex: 1 1 100%;
+        }
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
     }
 
-    .edit-btn:hover {
-      background-color: #ffe8a1;
+    .no-drugs {
+      padding: 48px;
+      text-align: center;
+      color: #6c757d;
+      font-size: 1.1rem;
     }
 
-    .delete-btn:hover {
-      background-color: #f1b0b7;
+    .table-wrapper {
+      padding: 16px;
+      background: #ffffff;
+
+      table {
+        width: 100%;
+
+        th.mat-header-cell {
+          background: #e3f2fd;
+          color: #0077b6;
+          font-weight: 600;
+        }
+
+        tr.mat-row:nth-child(even) {
+          background: #f5faff;
+        }
+
+      
+      }
     }
   }
 }

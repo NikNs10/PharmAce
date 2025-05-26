@@ -1,0 +1,220 @@
+// Import the new color module
+@use "sass:color";
+
+// Navbar variables
+$navbar-bg: #1ab2b2; // Teal color
+$navbar-text: white;
+$navbar-hover: color.adjust($navbar-bg, $lightness: -10%);
+$search-bg: rgba(255, 255, 255, 0.2);
+$search-focus: rgba(255, 255, 255, 0.3);
+$badge-bg: #ff4757;
+
+.navbar {
+  background-color: $navbar-bg;
+  color: $navbar-text;
+  padding: 0.8rem 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: $navbar-text;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.navbar-icon {
+  font-size: 1.5rem;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: $navbar-text;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $navbar-hover;
+  }
+}
+
+.navbar-search {
+  flex-grow: 1;
+  max-width: 500px;
+  margin: 0 1.5rem;
+}
+
+.search-container {
+  display: flex;
+  width: 100%;
+}
+
+.search-input {
+  flex-grow: 1;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  background-color: $search-bg;
+  color: $navbar-text;
+  outline: none;
+
+  &::placeholder {
+    color: rgba($navbar-text, 0.7);
+  }
+
+  &:focus {
+    background-color: $search-focus;
+  }
+}
+
+.search-button {
+  padding: 0 1rem;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  background-color: $navbar-hover;
+  color: $navbar-text;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: color.adjust($navbar-hover, $lightness: -5%);
+  }
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.cart-button {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: $navbar-text;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: $badge-bg;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding-left: 1rem;
+
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border: 1px solid $navbar-text;
+    color: $navbar-text;
+    background: transparent;
+
+    &:hover {
+      background-color: rgba($navbar-text, 0.1);
+    }
+
+    i {
+      font-size: 1rem;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navbar-search {
+    order: 3;
+    flex-basis: 100%;
+    margin: 0;
+  }
+
+  .navbar-left {
+    gap: 0.5rem;
+  }
+
+  .nav-text, .navbar-title {
+    display: none;
+  }
+
+  .nav-right {
+    margin-left: 0;
+    padding-left: 0;
+    
+    .btn {
+      padding: 0.5rem;
+      
+      span {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 769px) {
+  .navbar {
+    flex-direction: row;
+  }
+  
+  .nav-right {
+    margin-left: auto;
+  }
+}

@@ -1,0 +1,70 @@
+<div *ngIf="drugs.length > 0; else noDrugs">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div *ngFor="let drug of drugs" class="col">
+        <div class="card h-100 shadow-sm drug-card">
+          <div class="card-body d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">{{ drug.name }}</h5>
+              <span class="badge">{{ drug.category || 'General' }}</span>
+            </div>
+            <p class="card-text text-muted small mb-3">{{ drug.description }}</p>
+            <div class="mt-auto">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <span class="text-muted small">Dosage:</span>
+                  <span class="ms-2 fw-bold">{{ drug.dosage || 'N/A' }}</span>
+                </div>
+                <div class="drug-price">
+                  ₹{{ drug.price | number:'1.2-2' }}
+                </div>
+              </div>
+              <button 
+                (click)="addToCart(drug)" 
+                class="btn btn-teal w-100 d-flex align-items-center justify-content-center py-2"
+              >
+                <span class="me-2">🛒</span>
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="d-flex justify-content-center mt-5" *ngIf="totalCount > pageSize">
+      <nav aria-label="Drug pagination">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" (click)="changePage(currentPage - 1)">Previous</a>
+          </li>
+          <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === currentPage">
+            <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" (click)="changePage(currentPage + 1)">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  
+  <ng-template #noDrugs>
+    <div class="text-center py-5">
+      <div class="empty-state">
+        <span style="font-size: 3rem;">🔍</span>
+        <h4 class="mt-3 text-muted">No medicines found</h4>
+        <p class="text-muted" *ngIf="!isLoading && !error">Try adjusting your search or filter</p>
+        <p class="text-danger" *ngIf="error">{{ error }}</p>
+        <button class="btn btn-outline-teal mt-2" (click)="resetSearch()" *ngIf="!isLoading">
+          <span class="me-1">↻</span> Reset Search
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  
+  <div class="text-center py-5" *ngIf="isLoading">
+    <div class="spinner-border text-teal" role="status" style="width: 3rem; height: 3rem;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3 text-muted">Loading medicines...</p>
+  </div>

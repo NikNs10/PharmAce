@@ -26,6 +26,12 @@ namespace PharmAce.Models
         [Required]
         public Guid SupplierId{get;set;}
 
+        // public virtual Drug Drugs { get; set; }
+        [ForeignKey(nameof(DrugId))]
+        public virtual Drug Drugs { get; set; }
+
+        [ForeignKey(nameof(SupplierId))]
+        public virtual ApplicationUser User { get; set; }
         
         
     }

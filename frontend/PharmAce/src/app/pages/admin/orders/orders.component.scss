@@ -1,0 +1,97 @@
+.purchase-suppliers-container {
+    padding: 0px;
+    margin-left: 12%;
+    transition: margin-left 0.3s ease;
+    align-items: left;
+  
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 0 24px;
+  
+      h1 {
+        font-size: 28px;
+        font-weight: 600;
+        color: #2d3748;
+        margin-left: 30px;
+      }
+  
+      .actions {
+        display: flex;
+        gap: 12px;
+      }
+    }
+  
+    mat-card {
+      border-radius: 12px;
+      margin: 0 auto;
+      max-width: 90%;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  
+      mat-card-content {
+        padding: 0;
+  
+        .tab-content {
+          padding: 24px;
+        }
+  
+        .full-width-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 16px;
+  
+          th {
+            background-color: #edf2f7;
+            color: #2d3748;
+            font-weight: 600;
+            padding: 12px;
+            text-align: left;
+          }
+  
+          td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
+          }
+  
+          tr:hover {
+            background-color: #f7fafc;
+          }
+  
+          tr.mat-header-row {
+            border-bottom: 2px solid #cbd5e0;
+          }
+        }
+      }
+    }
+  
+    .active-tab {
+      background-color: rgba(255, 255, 255, 0.15) !important;
+      border-bottom: 3px solid #ffffff !important;
+      transition: all 0.3s ease;
+    }
+  
+    mat-tab-nav-bar {
+      background-color: #f8f9fa;
+      padding: 0 24px;
+  
+      a.mat-tab-link {
+        color: #4a5568;
+        opacity: 1;
+        height: 48px;
+  
+        &:hover {
+          background-color: rgba(66, 153, 225, 0.1);
+        }
+  
+        &.active-tab {
+          color: #4299e1;
+          border-bottom-color: #4299e1;
+        }
+      }
+    }
+  }
+  

@@ -12,7 +12,7 @@ using PharmAce.Data;
 namespace PharmAce.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250409185540_InitialCreate")]
+    [Migration("20250503154816_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -242,7 +242,7 @@ namespace PharmAce.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("PharmAce.Models.Drug", b =>
@@ -256,13 +256,14 @@ namespace PharmAce.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DrugExpiry")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -274,6 +275,8 @@ namespace PharmAce.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("DrugId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Drugs");
                 });
@@ -302,7 +305,11 @@ namespace PharmAce.Migrations
 
                     b.HasKey("InventoryId");
 
-                    b.ToTable("Inventories");
+                    b.HasIndex("DrugId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("Inventory", (string)null);
                 });
 
             modelBuilder.Entity("PharmAce.Models.Order", b =>
@@ -311,14 +318,8 @@ namespace PharmAce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DoctorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("OrderDate")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("OrderItemId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -329,7 +330,14 @@ namespace PharmAce.Migrations
                     b.Property<Guid?>("TransactionId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("OrderId");
+
+                    b.HasIndex("TransactionId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -351,16 +359,17 @@ namespace PharmAce.Migrations
 
                     b.HasKey("OrderItemId");
 
+                    b.HasIndex("DrugId");
+
+                    b.HasIndex("OrderId");
+
                     b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("PharmAce.Models.SalesReport", b =>
                 {
-                    b.Property<long>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("OrderId"));
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<long>("OrderDetails")
                         .HasColumnType("bigint");
@@ -370,7 +379,7 @@ namespace PharmAce.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.ToTable("SalesReports");
+                    b.ToTable("SalesReport", (string)null);
                 });
 
             modelBuilder.Entity("PharmAce.Models.TransactionDetail", b =>
@@ -395,32 +404,6 @@ namespace PharmAce.Migrations
                     b.HasKey("TransactionId");
 
                     b.ToTable("TransactionDetails");
-                });
-
-            modelBuilder.Entity("PharmAce.Models.User", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -472,6 +455,116 @@ namespace PharmAce.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PharmAce.Models.Drug", b =>
+                {
+                    b.HasOne("PharmAce.Models.Category", "Category")
+                        .WithMany("Drugs")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("PharmAce.Models.Inventory", b =>
+                {
+                    b.HasOne("PharmAce.Models.Drug", "Drugs")
+                        .WithMany("Inventory")
+                        .HasForeignKey("DrugId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PharmAce.Models.ApplicationUser", "User")
+                        .WithMany("Inventories")
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Drugs");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PharmAce.Models.Order", b =>
+                {
+                    b.HasOne("PharmAce.Models.TransactionDetail", "TransactionDetails")
+                        .WithMany("Orders")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("PharmAce.Models.ApplicationUser", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("TransactionDetails");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PharmAce.Models.OrderItem", b =>
+                {
+                    b.HasOne("PharmAce.Models.Drug", "Drugs")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("DrugId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PharmAce.Models.Order", "Orders")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Drugs");
+
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("PharmAce.Models.SalesReport", b =>
+                {
+                    b.HasOne("PharmAce.Models.Order", "Order")
+                        .WithOne("SalesReport")
+                        .HasForeignKey("PharmAce.Models.SalesReport", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("PharmAce.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Inventories");
+
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("PharmAce.Models.Category", b =>
+                {
+                    b.Navigation("Drugs");
+                });
+
+            modelBuilder.Entity("PharmAce.Models.Drug", b =>
+                {
+                    b.Navigation("Inventory");
+
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("PharmAce.Models.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+
+                    b.Navigation("SalesReport")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PharmAce.Models.TransactionDetail", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

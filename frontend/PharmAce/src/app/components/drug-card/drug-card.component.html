@@ -1,0 +1,40 @@
+<mat-card class="drug-card">
+    <div class="drug-image">
+      <img [src]="drug.imageUrl || '/assets/images/medicine-placeholder.png'" [alt]="drug.name">
+      <div *ngIf="isExpiringSoon()" class="expiry-badge">
+        Expiring Soon
+      </div>
+    </div>
+    
+    <mat-card-content>
+      <h3 class="drug-name">{{drug.name}}</h3>
+      <p class="drug-description">{{drug.description | slice:0:100}}{{drug.description.length > 100 ? '...' : ''}}</p>
+      
+      <div class="drug-details">
+        <div class="stock-status" [style.color]="getStockStatus().color">
+          {{getStockStatus().text}}
+        </div>
+        <div class="drug-price">${{drug.price | number:'1.2-2'}}</div>
+      </div>
+    </mat-card-content>
+    
+    <mat-card-actions>
+      <button 
+        mat-raised-button 
+        color="primary" 
+        [disabled]="drug.stock <= 0" 
+        (click)="onAddToCart()"
+        *ngIf="authService.isLoggedIn()">
+        <mat-icon>add_shopping_cart</mat-icon>
+        Add to Cart
+      </button>
+      <a 
+        mat-raised-button 
+        color="primary" 
+        routerLink="login" 
+        *ngIf="!authService.isLoggedIn()">
+        Login to Purchase
+      </a>
+    </mat-card-actions>
+  </mat-card>
+  

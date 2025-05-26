@@ -11,7 +11,7 @@ namespace PharmAce.Models
         Doctor,
         Supplier
     }
-    public class User
+    public class CustomUser
     {
         [Key]
         public Guid UserId{get;set;}
@@ -28,5 +28,8 @@ namespace PharmAce.Models
 
         [Required]
         public Role Role{get;set;}
+
+
+        
     }
 }

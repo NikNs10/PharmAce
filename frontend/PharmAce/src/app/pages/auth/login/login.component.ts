@@ -50,13 +50,13 @@ throw new Error('Method not implemented.');
   
           const role = this.authService.getUserRole();
           console.log('User role after login:', role);
-
+          
           if (role === 'Supplier') {
             this.router.navigate(['/supplier/dashboard']);
           } else if (role === 'Admin') {
             this.router.navigate(['/admin/dashboard']); // default: Admin/home
           } else if(role === 'Doctor') {
-            this.router.navigate(['/doctor/dashboard']); // default: Doctor/home
+            this.router.navigate(['/']); // default: Doctor/home
           }
 
 

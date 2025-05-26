@@ -1,0 +1,58 @@
+<nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-left">
+        <!-- Brand/Logo -->
+        <a class="navbar-brand" (click)="goHome()">
+          <span class="navbar-icon">💊</span>
+          <span class="navbar-title">PharmAce</span>
+        </a>
+  
+        <!-- Navigation Buttons -->
+        <button class="nav-button" *ngIf="isLoginPage" (click)="goHome()">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-text">Home</span>
+        </button>
+        
+        <button class="nav-button" *ngIf="!isLoginPage && !isLoggedIn" (click)="onLogin()">
+          <span class="nav-icon">🔐</span>
+          <span class="nav-text">Login</span>
+        </button>
+        
+        <button class="nav-button" *ngIf="isLoggedIn" (click)="logout()">
+          <span class="nav-icon">🚪</span>
+          <span class="nav-text">Logout</span>
+        </button>
+      </div>
+  
+      <!-- Search Bar (only shown on non-login pages) -->
+      <div class="navbar-search" *ngIf="!isLoginPage">
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            [(ngModel)]="searchQuery"
+            placeholder="Search medicines..."
+            (keyup.enter)="onSearch()"
+          />
+          <button class="search-button" (click)="onSearch()">
+            <span class="search-icon">🔍</span>
+          </button>
+        </div>
+      </div>
+  
+      <!-- Cart Button (only shown on non-login pages) -->
+      <div class="navbar-right" *ngIf="!isLoginPage">
+        <button class="cart-button" (click)="viewCart()">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-count" *ngIf="cartCount > 0">{{ cartCount }}</span>
+        </button>
+      </div>
+    </div>
+  
+    <div class="nav-right" *ngIf="isLoggedIn"> <!-- Only show when logged in -->
+      <button class="btn btn-outline-primary me-2" (click)="viewOrders()">
+        <i class="bi bi-list-ul"></i> My Orders
+      </button>
+    
+    </div>
+  </nav>

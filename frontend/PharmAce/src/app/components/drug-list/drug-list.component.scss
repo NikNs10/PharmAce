@@ -1,0 +1,118 @@
+// Define variables directly in the component
+$teal-100: #e6f7f7;
+$teal-200: #b3e6e6;
+$teal-300: #80d4d4;
+$teal-400: #4dc3c3;
+$teal-500: #1ab2b2;
+$teal-600: #149999;
+$teal-700: #0e7f7f;
+$teal-800: #096666;
+$teal-900: #034c4c;
+$gray-600: #6c757d;
+$green-500: #28a745;
+
+.drug-card {
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  overflow: hidden;
+  border: none;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: $teal-700;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    background-color: $teal-500;
+  }
+
+  .drug-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $teal-500;
+  }
+}
+
+.empty-state {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: rgba($teal-100, 0.3);
+  border-radius: 10px;
+}
+
+.btn-teal {
+  background-color: $teal-500;
+  color: white;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $teal-600;
+    color: white;
+  }
+}
+
+.btn-outline-teal {
+  border: 1px solid $teal-500;
+  color: $teal-500;
+  background-color: transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $teal-500;
+    color: white;
+  }
+}
+
+.pagination {
+  .page-link {
+    color: $teal-600;
+    border: 1px solid $teal-200;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $teal-100;
+    }
+  }
+
+  .page-item.active .page-link {
+    background-color: $teal-500;
+    border-color: $teal-500;
+    color: white;
+  }
+
+  .page-item.disabled .page-link {
+    color: $gray-600;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+  }
+}
+
+.snackbar-success {
+  background-color: $green-500 !important;
+}
+
+.spinner-border.text-teal {
+  color: $teal-500 !important;
+}
+
+.text-teal {
+  color: $teal-500;
+}
+
+.bg-teal {
+  background-color: $teal-500;
+}

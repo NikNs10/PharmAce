@@ -8,6 +8,11 @@ namespace PharmAce.Models
 {
     public class Category
     {
+          public Category()
+        {
+            Drugs = new HashSet<Drug>();
+        }
+
         [Key]
         public Guid CategoryId { get; set; }
         //public int CategoryId { get; set; }
@@ -15,9 +20,10 @@ namespace PharmAce.Models
         [Required]
         public string CategoryName { get; set; }
 
-    //Navigation.
-    //     public ICollection<Drug> Drugs { get; set; }
-    // }
+    // //Navigation.
+        public virtual ICollection<Drug> Drugs { get; set; }
+
     }
+    
 }
 

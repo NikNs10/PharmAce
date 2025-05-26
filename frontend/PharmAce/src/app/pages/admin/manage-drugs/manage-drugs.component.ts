@@ -3,10 +3,13 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../services/api.service';
+import { CategoryDto } from '../../../models/categoryDto.model';
+import { MaterialModule } from '../../../material/material.module';
+
 
 @Component({
   selector: 'app-manage-drugs',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MaterialModule , FormsModule],
   standalone: true,
 
   templateUrl: './manage-drugs.component.html',
@@ -20,17 +23,22 @@ export class ManageDrugsComponent implements OnInit, OnChanges  {
   showAddForm = false;
   editMode = false;
   editingDrugId: string | null = null;
-  name : string = ''; 
-  description: string = '';
-  stock : number = 0;
-  price : number = 0;
+  // name : string = ''; 
+  // description: string = '';
+  // stock : number = 0;
+  // price : number = 0;
   newDrug: any = {
     name: '',
-    //manufacturer: '',
+    stock: undefined,
     description: '',
-    stock : 0,
-    price: 0
+    price: undefined,
+    drugExpiry: null,
+    categoryId:null,
+    SupplierId:''
   };
+  SupplierId: string | null ='';
+  num:string='';
+  categories: CategoryDto[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -38,32 +46,54 @@ export class ManageDrugsComponent implements OnInit, OnChanges  {
   ) {}
 
   ngOnInit(): void {
-    if (!this.searchQuery) {
-      //this.fetchDrugs();
-      this.apiService.getDrugs().subscribe({
-        next: response => {
-          // If response is an array, assign it directly
-          this.drugs = Array.isArray(response) ? response : response.items || [];
-        },
-        error: err => {
-          console.error('Error loading drugs:', err);
-        }
-      });
+    if (!this.searchQuery) {      
+      this.fetchAllDrugs();
+      this.getCategories();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['searchQuery'] && !changes['searchQuery'].firstChange) {
-      const newSearchTerm = changes['searchQuery'].currentValue;
-      this.fetchDrugs(newSearchTerm);
+      //const newSearchTerm = changes['searchQuery'].currentValue;
+      //this.fetchDrugs(newSearchTerm);
+      this.fetchAllDrugs();
     }
   }
+  fetchAllDrugs(): void {
+    this.apiService.getDrugs().subscribe({
+      next: response => {
+        this.drugs = Array.isArray(response) ? response : response.items || [];
+        console.log('Fetched Drugs:', this.drugs); // Check the console for the drug object structure
+      },
+      error: err => {
+        console.error('Error loading drugs:', err);
+      }
+    });
+  }
 
+  getCategories(): void {
+    this.apiService.getCategories().subscribe({
+      next: (categories) => {
+        this.categories = categories;
+      },
+      error: (err) => {
+        console.error('Error fetching categories:', err);
+        this.snackBar.open('Failed to load categories', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  getCategoryName(categoryId: string): string {
+    const category = this.categories.find(c => c.categoryId === categoryId);
+    return category ? category.categoryName : 'Uncategorized';
+  }
+  
   fetchDrugs(searchTerm: string = '', page: number = 1, pageSize: number = 10): void {
     this.apiService.getFilteredDrugs(searchTerm, page, pageSize).subscribe({
       next: response => {
         this.drugs = response.items;
         this.totalCount = response.totalCount;
+        
       },
       error: err => {
         console.error('Error fetching drugs:', err);
@@ -73,7 +103,9 @@ export class ManageDrugsComponent implements OnInit, OnChanges  {
 
   // ✅ In addDrug(), adjust validation and payload
   addDrug(): void {
-    if (!this.newDrug.name || !this.newDrug.price || !this.newDrug.description || !this.newDrug.stock) {
+    const userId = this.apiService.GetuserId();
+    this.newDrug.SupplierId = userId;
+    if (!this.newDrug.name || !this.newDrug.price || this.newDrug.stock==undefined || this.newDrug.stock==0 || !this.newDrug.categoryId || !this.newDrug.SupplierId || !this.newDrug.drugExpiry) {
       this.snackBar.open('Please fill in all required fields.', 'Close', { duration: 3000 });
       return;
     }
@@ -81,9 +113,23 @@ export class ManageDrugsComponent implements OnInit, OnChanges  {
     this.apiService.addDrug(this.newDrug).subscribe({
       next: (data) => {
         this.snackBar.open('Drug added successfully!', 'Close', { duration: 3000 });
-        this.fetchDrugs(); // better than pushing manually
-        this.newDrug = { name: '', description: '', price: 0, categoryName: '' };
+        //this.fetchDrugs(); // better than pushing manually
+        this.fetchAllDrugs();
+        //this.newDrug = { name: '', description: '', price: 0, categoryName: '' };
+        this.newDrug = { name: '', description: '', price: 0 ,stock:0,drugExpiry:null,categoryId: null};
         this.showAddForm = false;
+
+        const drugobj: any={
+          drugId: data.result.drugId,
+          name: data.result.name,
+          description: data.result.description,
+          stock: data.result.stock,
+          drugExpiry: data.result.drugExpiry,
+          price: data.result.price,
+          categoryId: data.result.categoryId,
+          supplierId: data.result.supplierId
+        };
+        this.apiService.addDrugInInventory(drugobj).subscribe();
       },
       error: (err) => {
         console.error('Add drug failed:', err);
@@ -95,11 +141,17 @@ export class ManageDrugsComponent implements OnInit, OnChanges  {
 
   // ✅ In editDrug()
   editDrug(drug: any): void {
+    this.SupplierId = this.apiService.GetuserId();
+    // this.newDrug.userId = userId;
     this.newDrug = {
+      drugId:drug.drugId,
       name: drug.name,
       description: drug.description,
       price: drug.price,
-      stock : drug.stock,
+      stock: drug.stock,
+      drugExpiry:drug.drugExpiry,
+      categoryId:drug.categoryId,
+      SupplierId:this.SupplierId
     };
     this.editMode = true;
     this.editingDrugId = drug.drugId;
@@ -107,16 +159,36 @@ export class ManageDrugsComponent implements OnInit, OnChanges  {
   }
 
 
-  updateDrug(): void {
-    //if (!this.editingDrugId) return;
+  // updateDrug(): void {
+  //   //if (!this.editingDrugId) return;
 
-    this.apiService.updateDrug( this.newDrug).subscribe({
+  //   this.apiService.updateDrug( this.newDrug).subscribe({
+  //     next: () => {
+  //       this.snackBar.open('Drug updated successfully!', 'Close', { duration: 3000 });
+  //       //this.fetchDrugs();
+  //       this.fetchAllDrugs();
+  //       this.cancelForm();
+  //     },
+  //     error: (err) => {
+  //       console.error('Update failed:', err);
+  //       this.snackBar.open('Failed to update drug.', 'Close', { duration: 3000 });
+  //     }
+  //   });
+  // }
+  updateDrug(): void {
+    if (!this.editingDrugId) return;
+    let drug=this.newDrug;
+    // console.log(drug);
+    this.apiService.updateDrug(drug).subscribe({
       next: () => {
         this.snackBar.open('Drug updated successfully!', 'Close', { duration: 3000 });
         this.fetchDrugs();
         this.cancelForm();
+        
+        this.apiService.updateDrugInInventory(drug).subscribe();
+        this.fetchAllDrugs();
       },
-      error: (err) => {
+      error: err => {
         console.error('Update failed:', err);
         this.snackBar.open('Failed to update drug.', 'Close', { duration: 3000 });
       }
@@ -128,7 +200,8 @@ export class ManageDrugsComponent implements OnInit, OnChanges  {
       this.apiService.deleteDrug(id).subscribe({
         next: () => {
           this.snackBar.open('Drug deleted.', 'Close', { duration: 3000 });
-          this.drugs = this.drugs.filter(d => d.drugId !== id);
+          this.drugs = this.drugs.filter(d => d.id !== id);
+          this.fetchAllDrugs();
         },
         error: (err) => {
           console.error('Delete failed:', err);
@@ -137,12 +210,24 @@ export class ManageDrugsComponent implements OnInit, OnChanges  {
     }
   }
 
+
+  // deleteDrugByName(name: string) {
+  //   if (!confirm('Are you sure?')) return;
+  //   this.apiService.deleteDrugByName(name).subscribe({
+  //     next: () => {
+  //       this.snackBar.open('Deleted.', 'Close', { duration: 2000 });
+  //       this.fetchDrugs();
+  //     },
+  //     error: err => { /*…*/ }
+  //   });
+  // }
+  
   // ✅ In cancelForm()
   cancelForm(): void {
     this.showAddForm = false;
     this.editMode = false;
     this.editingDrugId = null;
-    this.newDrug = { name: '', description: '', price: 0, categoryName: '' };
+    this.newDrug = { name: '', description: '', price: null,stock:null,drugExpiry:null,categoryId: null,SupplierId:''};
   }
 
 

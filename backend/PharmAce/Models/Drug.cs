@@ -5,35 +5,53 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PharmAce.Models
 {
-    /// <summary>
-    /// Represents a pharmaceutical drug in the inventory
-    /// </summary>
+    // / <summary>
+    // / Represents a pharmaceutical drug in the inventory
+    // / </summary>
     public class Drug
     {
+        public Drug()
+        {
+            OrderItems = new HashSet<OrderItem>();
+            Inventory = new HashSet<Inventory>();
+        }
+
         [Key]
         public Guid DrugId { get; set; }
 
         [Required]
-        public Guid SupplierId{get;set;}
+        public Guid SupplierId { get; set; }
 
-        [Required(ErrorMessage = "Drug name is required")]
-        [StringLength(100, ErrorMessage = "Name cannot exceed 100 characters")]
-        public string Name { get; set; } = string.Empty;
+        [Required]
+        public string Name { get; set; }
 
-        [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters")]
-        public string Description { get; set; } = string.Empty;
+        [Required]
+        public string Description { get; set; }
 
-
-        [Range(0, int.MaxValue, ErrorMessage = "Stock cannot be negative")]
+        [Required]
         public int Stock { get; set; }
 
-        //[Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
-        [Column(TypeName = "decimal(18,2)")]
+        [Required]
+        public DateTime DrugExpiry{get;set;}
+
+        [Required]
         public decimal Price { get; set; }
 
-        
-        [Required(ErrorMessage = "Category is required")]
+        [Required]
         public Guid CategoryId { get; set; }
+
+        // Navigation properties
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<Inventory> Inventory { get; set; }
+
+        [ForeignKey(nameof(CategoryId))]
+        public virtual Category? Category { get; set; }
+        // public ICollection<OrderItem> OrderItems { get; set; }
+
+
+        // public virtual Inventory  Inventory  { get; set; }
+        // public virtual Category Category { get; set; }
+
 
         // [ForeignKey("CategoryId")]
         // public Category Category { get; set; }
@@ -53,8 +71,5 @@ namespace PharmAce.Models
 
         // Navigation properties
         // public ICollection<Order> Orders { get; set; } = new List<Order>();
-        // public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-
-        //public Category? Category { get; set; }
     }
 }

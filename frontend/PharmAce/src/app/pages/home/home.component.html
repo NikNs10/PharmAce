@@ -1,1 +1,168 @@
-<p>home works!</p>
+
+<div class="home-container">
+  
+  <header class="navbar">
+
+    <a routerLink="/" class="logo-link">
+      <img src="assets/images/logo.png" alt="Site Logo" class="logo-img">
+    </a>
+    
+    <div class="search-container">
+      <i class="bi bi-search"></i>
+      <input
+        type="text"
+        name="search"
+        placeholder="Search medicines or categories..."
+        class="search-box"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="applySearch()"  
+      />
+    </div>
+    <div class="nav-links">
+      <a routerLink="/cart" class="nav-link">
+        <i class="bi bi-cart3"></i>
+        <span class="badge">{{cartCount$ | async }}</span>
+      </a>
+      
+      <a class="nav-link" (click)="handleAuthAction()">
+        <i class="bi" [ngClass]="(authService.currentUser$ | async) ? 'bi-box-arrow-right' : 'bi-person-circle'"></i>
+        <span>{{ (authService.currentUser$ | async) ? 'Logout' : 'Login' }}</span>
+      </a>
+    </div>
+  </header>
+
+  
+  
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Manage Smarter, Care Better</h1>
+      <p>Your trusted partner for genuine medicines and healthcare products.</p>
+      <div class="hero-buttons">
+        <button class="primary-btn" (click)="viewAllMedicines()">Shop Now</button>
+        <button class="secondary-btn" routerLink="/about">Learn More</button>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="categories">
+    <h2 class="section-title">
+      <i class="bi bi-grid-fill"></i>
+       Category
+    </h2>
+    <div class="category-grid">
+      <div class="category-card" *ngFor="let cat of categories" 
+           (click)="onCategoryClick(cat.categoryName)">
+        <i class="bi {{cat.icon}}"></i>
+        <h3>{{ cat.categoryName }}</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-drugs">
+    <div class="section-header">
+      <h2 class="section-title">
+        <i class="bi bi-star-fill"></i>
+        Medicines
+      </h2>
+      <button class="view-all" (click)="viewAllMedicines()">
+        View All <i class="bi bi-arrow-right"></i>
+      </button>
+    </div>
+    
+    <div class="drug-grid">
+      <div class="drug-card" *ngFor="let drug of filteredDrugs">
+        <div class="drug-image">
+          <img [src]="drug.imageUrl || 'assets/default-drug.png'" alt="{{drug.name}}">
+        </div>
+        <div class="drug-info">
+          <h3 class="drug-name">{{drug.name}}</h3>
+          <h4 class="drug-description">{{drug.description}}</h4>      
+      
+          <div class="drug-price">
+            ₹{{drug.price}}
+           
+           </div>
+          <button class="add-to-cart" (click)="addToCart(drug)"    [disabled]="!authService.isLoggedIn()" 
+          >
+            <i class="bi bi-cart-plus"></i> Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </section> 
+  
+
+  
+  <section class="testimonials">
+    <h2 class="section-title">What Our Customers Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+        <p>"{{ testimonial.message }}"</p>
+        <h4>- {{ testimonial.name }}</h4>
+      </div>
+    </div>
+  </section>
+
+  
+  
+  <section class="value-propositions">
+    <div class="value-card">
+      <i class="bi bi-shield-check"></i>
+      <h3>100% Genuine Medicines</h3>
+      <p>Verified by licensed pharmacists</p>
+    </div>
+    <div class="value-card">
+      <i class="bi bi-truck"></i>
+      <h3>Fast & Free Delivery</h3>
+      <p>Same-day delivery available</p>
+    </div>
+    <div class="value-card">
+      <i class="bi bi-clock-history"></i>
+      <h3>24/7 Support</h3>
+      <p>Expert help always available</p>
+    </div>
+  </section>
+
+  
+  <section class="newsletter">
+    <h2 class="section-title">Stay Updated</h2>
+    <p>Subscribe to our newsletter for the latest updates and offers.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Enter your email "  [(ngModel)]="newsletterEmail" />
+      <button class="primary-btn" (click)="subscribeToNewsletter()">Subscribe</button>
+    </div>
+  </section>
+
+
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>PharmAce</h4>
+        <p>Your trusted health partner</p>
+        <div class="social-links">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+        <a href="#">FAQs</a>
+      </div>
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Returns Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 PharmAce. All rights reserved</p>
+    </div>
+  </footer>
+</div> -->
+
+

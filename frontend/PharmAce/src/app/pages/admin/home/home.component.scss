@@ -1,0 +1,101 @@
+:host {
+  .sidenav-container {
+    height: 100vh;
+    background: #f5f7fa;
+  }
+
+  .sidenav {
+    width: 240px;
+    background: #0077b6;
+    color: #fff;
+
+    .brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 1rem;
+      text-align: center;
+    }
+    .mat-nav-list .mat-list-item {
+      color: #fff;
+      border-radius: 4px;
+      margin: 4px 8px;
+      &.active, &:hover { background: rgba(255,255,255,0.1); }
+      mat-icon { margin-right: 12px; }
+    }
+  }
+
+  .toolbar-title { font-size: 1.25rem; font-weight: 600; }
+  .spacer       { flex: 1 1 auto; }
+
+  .main-content {
+    padding: 24px;
+    background: #eef5fb;
+    min-height: calc(100vh - 64px);
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+
+      .metric-card {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: #fff;
+        color: #003366;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        mat-icon {
+          font-size: 2.5rem;
+          margin-right: 0.75rem;
+          color: #005f99;
+        }
+        h2 { margin: 0; }
+        p  { margin: 0; color: #555; }
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+      }
+    }
+
+    /* Tables Row */
+    .tables-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+
+      .table-card {
+        flex: 1 1 300px;
+        background: #fff;
+        table {
+          width: 100%;
+          th, td { padding: 0.5rem; }
+        }
+      }
+    }
+
+    /* Chart Card */
+    .chart-card {
+      background: #fff;
+      .chart-placeholder {
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #0077b6;
+        color: #0077b6;
+        font-style: italic;
+        margin: 1rem;
+      }
+    }
+  }
+
+  /* Responsive tweak */
+  @media (max-width: 800px) {
+    .tables-row { flex-direction: column; }
+  }
+}
