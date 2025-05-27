@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../services/api.service';
 import { CategoryDto } from '../../../models/categoryDto.model';
 import { MaterialModule } from '../../../material/material.module';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-manage-drugs',
@@ -196,19 +196,63 @@ export class ManageDrugsComponent implements OnInit, OnChanges  {
   }
 
   deleteDrug(id: string): void {
-    if (confirm('Are you sure you want to delete this drug?')) {
+    Swal.fire({
+    title: 'Confirm Deletion',
+    text: 'Are you sure you want to delete this Drug?',
+    icon: 'warning',
+    background: '#ffffff',
+    color: '#1e3a8a', 
+    showCancelButton: true,
+    confirmButtonColor: '#1e40af', 
+    cancelButtonColor: '#e5e7eb', 
+    confirmButtonText: 'Yes, Delete',
+    cancelButtonText: 'Cancel',
+    customClass: {
+      popup: 'rounded-xl shadow-lg',
+      title: 'text-xl font-semibold',
+      confirmButton: 'px-4 py-2',
+      cancelButton: 'px-4 py-2',
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+    {
       this.apiService.deleteDrug(id).subscribe({
         next: () => {
+          Swal.fire({
+            title: 'Deleted!',
+            text: 'User has been successfully deleted.',
+            icon: 'success',
+            background: '#ffffff',
+            color: '#1e3a8a',
+            confirmButtonColor: '#1e40af',
+            confirmButtonText: 'OK',
+            customClass: {
+              popup: 'rounded-xl shadow-md',
+              title: 'text-lg font-medium',
+              confirmButton: 'px-4 py-2'
+            }
+          });
           this.snackBar.open('Drug deleted.', 'Close', { duration: 3000 });
           this.drugs = this.drugs.filter(d => d.id !== id);
           this.fetchAllDrugs();
         },
         error: (err) => {
           console.error('Delete failed:', err);
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to delete user.',
+            icon: 'error',
+            background: '#ffffff',
+            color: '#b91c1c', 
+            confirmButtonColor: '#1e40af',
+            confirmButtonText: 'OK',
+          });
         }
       });
-    }
-  }
+      }
+    };
+  });
+}
 
 
   // deleteDrugByName(name: string) {

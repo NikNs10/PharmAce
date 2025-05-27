@@ -13,5 +13,7 @@ namespace PharmAce.Models.DTO
         public string Role { get; set; }
         public string PhoneNumber { get; set; }
 
+        
+
     }
 }

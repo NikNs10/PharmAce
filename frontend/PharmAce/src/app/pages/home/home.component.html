@@ -45,13 +45,13 @@
   </section>
 
   
-  <section class="categories">
+  <section class="categories" *ngIf="!searchQuery">
     <h2 class="section-title">
       <i class="bi bi-grid-fill"></i>
        Category
     </h2>
     <div class="category-grid">
-      <div class="category-card" *ngFor="let cat of categories" 
+      <div class="category-card" *ngFor="let cat of categories"  
            (click)="onCategoryClick(cat.categoryName)">
         <i class="bi {{cat.icon}}"></i>
         <h3>{{ cat.categoryName }}</h3>

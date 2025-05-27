@@ -179,5 +179,6 @@ export class HomeComponent implements OnInit {
     ).slice(0, 8); // limit results
   }
   
+  
 }
 

@@ -36,15 +36,15 @@ namespace PharmAce.Controllers
         }
 
         // Add extra features to improve privacy of user data
-        // [Authorize]
-        // [HttpPost("Create-User")]
-        // public async Task<IActionResult> CreateUser([FromBody] UserDto userDto)
-        // {
-        //     if (userDto == null) return BadRequest("User data is null.");
-        //     var res = await _user.CreateUserAsync(userDto);
-        //     if (res) return CreatedAtAction(nameof(GetUserById), new { id = userDto.UserId }, userDto);
-        //     return BadRequest("User creation failed.");
-        // }
+        [Authorize]
+        [HttpPost("Create-User")]
+        public async Task<IActionResult> CreateUser([FromBody] UserDto userDto)
+        {
+            if (userDto == null) return BadRequest("User data is null.");
+            var res = await _user.CreateUserAsync(userDto);
+            if (res) return CreatedAtAction(nameof(GetUserById), new { id = userDto.UserId }, userDto);
+            return BadRequest("User creation failed.");
+        }
 
         // For creating a new user we can use the SignUp method in AuthorizeController
         [Authorize]

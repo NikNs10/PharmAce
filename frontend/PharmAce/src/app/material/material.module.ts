@@ -39,7 +39,8 @@ const MATERIAL_MODULES = [
   MatInputModule,
   MatDialogModule,
   MatMenu , MatMenuTrigger,
-  MatCardModule , MatExpansionModule,MatOption , MatSidenav , MatBadgeModule
+  MatCardModule , MatExpansionModule,MatOption , MatSidenav , MatBadgeModule,
+  
 
 ];
 

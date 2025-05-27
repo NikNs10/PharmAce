@@ -1,0 +1,30 @@
+.header-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-field {
+  width: 250px;
+  margin: 0 1rem;
+}
+
+.table-wrapper {
+  margin-top: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.full-width {
+  flex: 1 1 100%;
+}
+
+.no-data {
+  text-align: center;
+  margin-top: 2rem;
+  color: gray;
+}

@@ -60,7 +60,14 @@ namespace PharmAce.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto){
             var res = await _user.FindByEmailAsync(loginDto.Email);
-            if(res == null || !await _user.CheckPasswordAsync(res , loginDto.Password)){
+            
+            if (res == null || string.IsNullOrEmpty(res.PasswordHash))
+            {
+                return Unauthorized("User must set a password before login.");
+            }
+
+            if (res == null || !await _user.CheckPasswordAsync(res, loginDto.Password))
+            {
                 return Unauthorized("Invalid email or password");
             }
             var token = await _authorize.GenerateJwtToken(res);

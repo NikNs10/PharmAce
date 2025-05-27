@@ -24,6 +24,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -39,14 +40,16 @@ throw new Error('Method not implemented.');
   email: string = '';
   password: string = '';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService , private snackbar : MatSnackBar) {}
 
   onLogin() {
     if (this.email && this.password) {
       this.authService.login(this.email, this.password).subscribe({
         next: (res) => {
           this.authService.saveToken(res.token);
-          alert('Login successful!');
+          //alert('Login successful!');
+          this.snackbar.open('Login successful!', 'Close', { duration: 3000 });
+          console.log('Login successful!');
   
           const role = this.authService.getUserRole();
           console.log('User role after login:', role);
@@ -63,11 +66,16 @@ throw new Error('Method not implemented.');
         },
         error: (err) => {
           console.error(err);
-          alert('Invalid credentials');
+          // alert('Invalid credentials');
+          this.snackbar.open('Invalid credentials. Please try again.', 'Close', { duration: 3000 });    
+          this.email = '';
+          this.password = '';
         }
       });
     } else {
-      alert('Please enter valid credentials');
+      this.snackbar.open('Please enter email and password.', 'Close', { duration: 3000 });
+      this.email = '';
+      this.password = '';
     }
   }
   

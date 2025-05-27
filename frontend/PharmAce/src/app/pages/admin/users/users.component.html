@@ -1,0 +1,60 @@
+<div class="container">
+  <h2>Users Management</h2>
+
+  <div class="top-bar">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (input)="fetchUsers()"
+      placeholder="Search by name or email"
+    />
+    <button (click)="showAddForm = true; editMode = false; newUser = getEmptyUser()">
+      Add User
+    </button>
+  </div>
+
+  <div class="form-container" *ngIf="showAddForm">
+    <h3>{{ editMode ? '✏️ Edit User' : '➕ Add User' }}</h3>
+    <form (ngSubmit)="editMode ? updateUser() : addUser()">
+      <input type="text" [(ngModel)]="newUser.userName" name="userName" placeholder="Username" required />
+      <input type="email" [(ngModel)]="newUser.email" name="email" placeholder="Email" required />
+      <input type="text" [(ngModel)]="newUser.phoneNumber" name="phoneNumber" placeholder="Phone Number" required />
+
+      <select [(ngModel)]="newUser.role" name="role" required >
+        <option value="Admin">Admin</option>
+        <option value="Doctor">Doctor</option>
+        <option value="Supplier">Supplier</option>
+      </select>
+
+      <button type="submit">{{ editMode ? 'Update' : 'Add' }}</button>
+      <button type="button" (click)="showAddForm = false">Cancel</button>
+    </form>
+  </div>
+
+  
+  <table>
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.userId }}</td>
+        <td>{{ user.userName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phoneNumber }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <button (click)="editUser(user)">Edit</button>
+          <button *ngIf="user.userId" (click)="deleteUser(user.userId)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

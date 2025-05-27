@@ -60,6 +60,11 @@ export const routes: Routes = [
           path: 'suppliers',
           loadComponent: () => 
             import('../pages/admin/suppliers/suppliers.component').then((m) => m.SuppliersComponent),
+        },
+        {
+          path: 'manage-users',
+          loadComponent: () => 
+            import('../pages/admin/users/users.component').then((m) => m.UsersComponent),          
         }
       ]
   },
